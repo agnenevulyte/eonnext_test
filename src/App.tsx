@@ -1,12 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MeterReading } from "./types";
-import { validateInput } from "./helpers";
+import { calculatePredictedUsage, validateInput } from "./helpers";
 import "./styles.css";
 
 export default function App() {
   const [readings, setReadings] = useState<MeterReading[]>([]);
   const [currentValue, setCurrentValue] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [predictedUsage, setPredictedUsage] = useState<MeterReading | null>(
+    null
+  );
+
+  useEffect(() => {
+    const predicted = calculatePredictedUsage(readings);
+    setPredictedUsage(predicted);
+  }, [readings]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let { value } = event.target;
@@ -79,7 +87,11 @@ export default function App() {
       </div>
       <button onClick={handleSubmit}>Submit</button>
       <h2>Predicted usage next month</h2>
-      <p>Coming soon</p>
+      {predictedUsage ? (
+        <p>{predictedUsage.value}</p>
+      ) : (
+        <p>Not enough readings to predict usage</p>
+      )}
       <h2>Previous meter readings</h2>
 
       {readingListItems.length > 0 ? (
