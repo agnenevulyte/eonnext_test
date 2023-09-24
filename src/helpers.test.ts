@@ -1,4 +1,8 @@
-import { calculatePredictedUsage, validateInput } from "./helpers";
+import {
+  calculatePredictedUsage,
+  formatNumberWithLeadingZeros,
+  validateInput,
+} from "./helpers";
 import { MeterReading } from "./types";
 
 describe("validateInput", () => {
@@ -68,4 +72,21 @@ describe("calculatePredictedUsage", () => {
       source: "estimated",
     });
   });
+});
+
+describe("formatNumberWithLeadingZeros", () => {
+  it.each`
+    number    | length | expected
+    ${5}      | ${3}   | ${"005"}
+    ${42}     | ${4}   | ${"0042"}
+    ${12345}  | ${6}   | ${"012345"}
+    ${123}    | ${3}   | ${"123"}
+    ${987654} | ${6}   | ${"987654"}
+  `(
+    'should format $number with leading zeros to get "$expected"',
+    ({ number, length, expected }) => {
+      const actual = formatNumberWithLeadingZeros(number, length);
+      expect(actual).toEqual(expected);
+    }
+  );
 });

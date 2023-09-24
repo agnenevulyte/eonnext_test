@@ -36,3 +36,10 @@ export const calculatePredictedUsage = (
     return null;
   }
 };
+
+export const formatNumberWithLeadingZeros = (
+  number: number,
+  length: number
+): string => {
+  return number.toString().padStart(length, "0");
+};
