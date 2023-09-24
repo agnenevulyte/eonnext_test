@@ -14,8 +14,18 @@ export default function App() {
   return (
     <div className="App">
       <h1>Meter Readings</h1>
-      <p>Enter a new meter reading:</p>
-      <input className="input"></input>
+      <div className="input-container">
+        <label htmlFor="meter-reading">Enter a new meter reading:</label>
+        <input
+          id="meter-reading"
+          className="input"
+          type="number"
+          min="0"
+          max="99999"
+          pattern="[0-9]+"
+          inputMode="decimal"
+        />
+      </div>
       <button>Submit</button>
       <p className="error" style={{ display: "none" }}>
         This is an invalid meter reading.
