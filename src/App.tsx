@@ -33,7 +33,12 @@ export default function App() {
       <h2>Predicted usage next month</h2>
       <p>Coming soon</p>
       <h2>Previous meter readings</h2>
-      <ul>{readingListItems}</ul>
+
+      {readingListItems.length > 0 ? (
+        <ul style={{ listStyleType: "none" }}>{readingListItems}</ul>
+      ) : (
+        <p>No previous readings provided</p>
+      )}
     </div>
   );
 }
