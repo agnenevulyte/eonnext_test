@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { MeterReading } from "./types";
-import { calculatePredictedUsage, validateInput } from "./helpers";
+import {
+  calculatePredictedUsage,
+  formatNumberWithLeadingZeros,
+  validateInput,
+} from "./helpers";
 import "./styles.css";
 
 export default function App() {
@@ -57,7 +61,7 @@ export default function App() {
 
   const readingListItems = readings.map((reading) => (
     <li key={reading.value}>
-      {reading.value} - {reading.source}
+      {formatNumberWithLeadingZeros(reading.value, 5)}
     </li>
   ));
 
@@ -88,7 +92,7 @@ export default function App() {
       <button onClick={handleSubmit}>Submit</button>
       <h2>Predicted usage next month</h2>
       {predictedUsage ? (
-        <p>{predictedUsage.value}</p>
+        <p>{formatNumberWithLeadingZeros(predictedUsage.value, 5)}</p>
       ) : (
         <p>Not enough readings to predict usage</p>
       )}
