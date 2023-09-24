@@ -4,6 +4,24 @@ import "./styles.css";
 
 export default function App() {
   const [readings, setReadings] = useState<MeterReading[]>([]);
+  const [currentValue, setCurrentValue] = useState<string>("");
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let { value } = event.target;
+    setCurrentValue(value);
+  };
+
+  const handleSubmit = () => {
+    const newValue = parseFloat(currentValue);
+
+    const newReading: MeterReading = {
+      value: newValue,
+      source: "customer",
+    };
+
+    setReadings([newReading, ...readings]);
+    setCurrentValue("");
+  };
 
   const readingListItems = readings.map((reading) => (
     <li key={reading.value}>
@@ -24,9 +42,16 @@ export default function App() {
           max="99999"
           pattern="[0-9]+"
           inputMode="decimal"
+          value={currentValue}
+          onChange={handleInputChange}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              handleSubmit();
+            }
+          }}
         />
       </div>
-      <button>Submit</button>
+      <button onClick={handleSubmit}>Submit</button>
       <p className="error" style={{ display: "none" }}>
         This is an invalid meter reading.
       </p>
