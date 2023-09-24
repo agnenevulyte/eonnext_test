@@ -1,18 +1,41 @@
 import { useState } from "react";
 import { MeterReading } from "./types";
+import { validateInput } from "./helpers";
 import "./styles.css";
 
 export default function App() {
   const [readings, setReadings] = useState<MeterReading[]>([]);
   const [currentValue, setCurrentValue] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let { value } = event.target;
     setCurrentValue(value);
+    const errorMessage = validateInput(value);
+    setError(errorMessage);
   };
 
   const handleSubmit = () => {
+    const errorMessage = validateInput(currentValue);
+
+    if (!currentValue) {
+      setError("This field is required");
+      return;
+    }
+
+    if (errorMessage) {
+      setError(errorMessage);
+      return;
+    }
+
     const newValue = parseFloat(currentValue);
+
+    if (readings.length > 0 && newValue <= readings[0].value) {
+      setError(
+        `A new reading must be higher than the last reading. Last reading was: ${readings[0].value}.`
+      );
+      return;
+    }
 
     const newReading: MeterReading = {
       value: newValue,
@@ -21,6 +44,7 @@ export default function App() {
 
     setReadings([newReading, ...readings]);
     setCurrentValue("");
+    setError("");
   };
 
   const readingListItems = readings.map((reading) => (
@@ -35,8 +59,9 @@ export default function App() {
       <div className="input-container">
         <label htmlFor="meter-reading">Enter a new meter reading:</label>
         <input
+          aria-invalid={!!error}
           id="meter-reading"
-          className="input"
+          className={`input ${error ? "error" : ""}`}
           type="number"
           min="0"
           max="99999"
@@ -50,11 +75,9 @@ export default function App() {
             }
           }}
         />
+        {error && <p className="error">{error}</p>}
       </div>
       <button onClick={handleSubmit}>Submit</button>
-      <p className="error" style={{ display: "none" }}>
-        This is an invalid meter reading.
-      </p>
       <h2>Predicted usage next month</h2>
       <p>Coming soon</p>
       <h2>Previous meter readings</h2>
