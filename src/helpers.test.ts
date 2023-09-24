@@ -1,4 +1,5 @@
-import { validateInput } from "./helpers";
+import { calculatePredictedUsage, validateInput } from "./helpers";
+import { MeterReading } from "./types";
 
 describe("validateInput", () => {
   it("should return an empty string for valid input", () => {
@@ -32,5 +33,39 @@ describe("validateInput", () => {
     expect(validateInput("123456")).toBe(
       "Value must be a 5-digit number between 00000 and 99999"
     );
+  });
+});
+
+describe("calculatePredictedUsage", () => {
+  const latestReading: MeterReading = { value: 50, source: "customer" };
+  const reading1: MeterReading = { value: 40, source: "customer" };
+  const reading2: MeterReading = { value: 30, source: "customer" };
+  const reading3: MeterReading = { value: 20, source: "customer" };
+  const reading4: MeterReading = { value: 10, source: "customer" };
+
+  it("should return null if there are less than 4 readings", () => {
+    const readings = [latestReading, reading1, reading2];
+    const result = calculatePredictedUsage(readings);
+    expect(result).toBeNull();
+  });
+
+  it("should calculate predicted usage correctly when there are 4 readings", () => {
+    const readings = [latestReading, reading1, reading2, reading3];
+    const result = calculatePredictedUsage(readings);
+
+    const expectedValue =
+      latestReading.value +
+      (latestReading.value -
+        reading1.value +
+        reading1.value -
+        reading2.value +
+        reading2.value -
+        reading3.value) /
+        3;
+
+    expect(result).toEqual({
+      value: expectedValue,
+      source: "estimated",
+    });
   });
 });
