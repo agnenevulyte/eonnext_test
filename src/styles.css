@@ -1,13 +1,106 @@
-.App {
+:root {
+  --primary-color: #ff4822;
+  --secondary-color: #36164a;
+  --background-color: #faf6f4;
+  --error-color: red;
+  --button-text-color: #fff;
+  --button-border-color: #000;
+}
+
+* {
+  font-size: 8px;
+}
+
+body {
   font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll; 
+}
+
+.App {
+  padding: 20px 10px;
   text-align: center;
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  width: calc(100vw-20px);
+  overflow-y: auto;
+}
+
+h1 {
+  font-size: 5em;
+  color: var(--primary-color);
+}
+
+h2 {
+  font-size: 4em;
+  color: var(--secondary-color);
+}
+
+p {
+  font-size: 2.25em;
+}
+
+.input-container {
+  width: 300px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .input {
-  font-size: 1.2em;
+  font-size: 2.25em;
+  width: 250px;
+  line-height: 1.15em;
+  padding: 16px;
+  margin-top: 20px
+}
+
+label {
+  font-size: 2.25em;
+}
+
+button {
+  background-color: var(--primary-color);
+  color: var(--button-text-color);
+  padding: 16px 40px;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  border-radius: 30px;
+  font-size: 2.25em;
 }
 
 .error {
-  border-color: red;
-  color: red;
+  border-color: var(--error-color);
+  color: var(--error-color);
+  margin-bottom: 0;
+}
+
+ul {
+  margin: 0 auto;
+  text-align: left;
+  padding-left: 0;
+}
+
+li {
+  font-size: 2.25em;
+}
+
+
+@media only screen and (min-width: 768px) {
+  .App {
+    padding: 50px;
+    height: calc(100vh - 100px);
+  }
+
+  h1 {
+    font-size: 8em;
+  }
+  
+  h2 {
+    font-size: 5em;
+  }
 }
