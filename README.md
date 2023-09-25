@@ -40,3 +40,27 @@ The average distance between each of these is:
 (150 + 100 + 50) / 3 = 100
 
 Predicted usage = 00400 + 100 = 00500
+
+## Development
+
+Prior to running any development commands, dependencies will need to be installed. This can be done via the command `npm i`.
+
+## Running
+
+In order to run the app locally, this can be started via the command:
+
+```sh
+npm start
+```
+
+The server operates on a hot-reloading pattern, so changes may be made whilst the server is running, and immediately viewable in the browser.
+
+## Testing
+
+## Unit
+
+The project is tested using [`jest`](https://jestjs.io/) (for unit tests) and [`testing-library`](https://testing-library.com/) (for component tests). The tests can be run via the command:
+
+```sh
+npm test
+```
